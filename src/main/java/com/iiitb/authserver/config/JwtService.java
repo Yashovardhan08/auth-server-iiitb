@@ -4,6 +4,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +15,12 @@ import java.util.*;
 import java.util.function.Function;
 
 @Service
+//@PropertySource("classpath:application.properties")
 public class JwtService {
-    private static final String SECRET_KEY = "63fc255a9328babb6958bbcefd1f0db285c8484dafb7d6b9a8a0f5e925a9004d";
+
+    @Autowired
+    @Value("${jwt.secret}")
+    private static String SECRET_KEY;
     public String extractCollegeEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
