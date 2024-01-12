@@ -13,11 +13,7 @@ import java.util.Set;
 public class UserDTO {
     private String name;
     private String accPassword;
-    private String rollNo;
     private Date dob;
-    private String personalEmail;
-    private String address;
-    private String gender;
     private String contact;
     private String collegeEmail;
     private ArrayList<String> roles; // Set of roles associated with the user
@@ -56,4 +52,6 @@ public class UserDTO {
 
         return user;
     }
+
+
 }

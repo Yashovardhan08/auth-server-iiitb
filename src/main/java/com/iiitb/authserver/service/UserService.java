@@ -1,5 +1,6 @@
 package com.iiitb.authserver.service;
 
+import com.iiitb.authserver.dto.RegisterRequest;
 import com.iiitb.authserver.dto.UserDTO;
 import com.iiitb.authserver.model.ROLE;
 import com.iiitb.authserver.model.User;
@@ -65,5 +66,10 @@ public class UserService implements UserDetailsService {
     public List<User> findAllUsers()
     {
         return userRepository.findAll();
+    }
+
+    public void createUserFromRequest(RegisterRequest request) {
+        User user = request.getUserFromDto();
+        userRepository.save(user);
     }
 }

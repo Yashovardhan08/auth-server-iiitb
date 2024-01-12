@@ -29,12 +29,29 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request,Boolean isSuperAdmin) {
         System.out.println(request.getName());
 
-        byte[] decodedBytes = Base64.getDecoder().decode(request.getAccPassword());
-        String decodedPassword = new String(decodedBytes);
-        System.out.println(decodedPassword);
+        ArrayList<ROLE> userRoles = new ArrayList<ROLE>();
+        if(isSuperAdmin)userRoles.add(ROLE.SUPERADMIN);
+        else userRoles.add(ROLE.STUDENT);
+
+        var user = User.builder()
+        .userName(request.getName())
+        .dob(request.getDob())
+        .roles(userRoles)
+        .contact(request.getContact())
+        .collegeEmail(request.getCollegeEmail())
+        .password(passwordEncoder.encode(request.getAccPassword())).contact(request.getContact()).build();
+
+        userRepository.save(user);
+        var jwtToken = jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder().token(jwtToken).build();
+    }
+
+    public AuthenticationResponse registerOtherRoles(RegisterRequest request) {
+        System.out.println(request.getName());
 
         ArrayList<ROLE> userRoles = new ArrayList<ROLE>();
         for(String role: request.getRoles()){
@@ -51,21 +68,17 @@ public class AuthenticationService {
                     userRoles.add(ROLE.ADMIN);
                     break;
                 }
-                case "superadmin":{
-                    userRoles.add(ROLE.SUPERADMIN);
-                    break;
-                }
                 default:
             }
         }
 
         var user = User.builder()
-        .userName(request.getName())
-        .dob(request.getDob())
-        .roles(userRoles)
-        .contact(request.getContact())
-        .collegeEmail(request.getCollegeEmail())
-        .password(passwordEncoder.encode(request.getAccPassword())).contact(request.getContact()).build();
+                .userName(request.getName())
+                .dob(request.getDob())
+                .roles(userRoles)
+                .contact(request.getContact())
+                .collegeEmail(request.getCollegeEmail())
+                .password(passwordEncoder.encode(request.getAccPassword())).contact(request.getContact()).build();
 
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -74,8 +87,8 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) throws Exception {
-        byte[] decodedBytes = Base64.getDecoder().decode(request.getAccPassword());
-        String decodedPassword = new String(decodedBytes);
+//        byte[] decodedBytes = Base64.getDecoder().decode(request.getAccPassword());
+//        String decodedPassword = new String(decodedBytes);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getCollegeEmail(), request.getAccPassword()));
         User user = userService.findUserByCollegeEmail(request.getCollegeEmail());
         HashMap<String, Object> claims = new HashMap<String, Object>();

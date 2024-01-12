@@ -18,18 +18,18 @@ public class DemoController {
     }
 
     @GetMapping("/student-ping")
-    @PreAuthorize("hasAuthority('student', 'superadmin','admin')")
+    @PreAuthorize("hasAnyAuthority('student', 'superadmin','admin')")
     public ResponseEntity<String> userHello() {
         return ResponseEntity.ok("Hello for student from endpoint");
     }
     @GetMapping("/prof-ping")
-    @PreAuthorize("hasAuthority('professor', 'superadmin','admin')")
+    @PreAuthorize("hasAnyAuthority('professor', 'superadmin','admin')")
     public ResponseEntity<String> profHello() {
         return ResponseEntity.ok("Hello for Prof from endpoint");
     }
 
     @GetMapping("/superadmin-ping")
-    @PreAuthorize("hasRole('super-admin')")
+    @PreAuthorize("hasAnyAuthority('superadmin')")
     public ResponseEntity<String> superAdminHello() {
         return ResponseEntity.ok("Hello for super-admin from endpoint");
     }
