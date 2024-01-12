@@ -23,11 +23,11 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/api/v1/auth/demo-controller/prof-ping").hasAnyAuthority("ROLE_PROFESSOR");
-        http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/api/v1/auth/demo-controller/superadmin-ping").hasAuthority("ROLE_SUPERADMIN");
-        http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/api/v1/auth/demo-controller/student-ping").hasAuthority("ROLE_STUDENT");
-        http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/api/v1/auth/demo-controller/admin-ping").hasAuthority("ROLE_ADMIN");
-        http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/api/v1/auth/register", "/api/v1/auth/authenticate").permitAll().anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/demo-controller/prof-ping").hasAnyAuthority("ROLE_PROFESSOR");
+        http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/demo-controller/superadmin-ping").hasAuthority("ROLE_SUPERADMIN");
+        http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/demo-controller/student-ping").hasAuthority("ROLE_STUDENT");
+        http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/demo-controller/admin-ping").hasAuthority("ROLE_ADMIN");
+        http.cors().and().csrf().disable().authorizeHttpRequests().requestMatchers("/register", "/authenticate").permitAll().anyRequest().authenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

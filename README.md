@@ -23,17 +23,17 @@ This repository contains the code for a simple Authorization Server implementing
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/authorization-server.git
+    git clone https://github.com/Yashovardhan08/authorization-server.git
     cd authorization-server
     ```
-3. Set up environment variables:
+2. Set up environment variables:
 
    Fill in the empty entries in application.properties in /src/resources file.
 
-4. Start the server:
+3. Start the server:
 
 
-   The server should be running at http://localhost:port(in application.properties) by default.
+   The server should be running at http://localhost:8888(in application.properties) by default.
 
 ## API Endpoints
 
